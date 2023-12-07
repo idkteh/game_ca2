@@ -24,12 +24,17 @@ class Player extends GameObject {
     this.score = 0;
     this.isOnPlatform = false;
     this.isJumping = false;
-    this.jumpForce = 400;
+    this.jumpForce = 450;
     this.jumpTime = 0.3;
     this.jumpTimer = 0;
     this.isInvulnerable = false;
     this.isGamepadMovement = false;
     this.isGamepadJump = false;
+    this.hasDoublejump = true;
+    this.doubleJumpCool = 0;
+    this.canDash = true;
+    this.dashSpeed = 1000;
+    this.dashCool = 0;
   }
 
   // The update function runs every frame and contains game logic
@@ -51,9 +56,15 @@ class Player extends GameObject {
     }
 
     // Handle player jumping
-    if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.isOnPlatform) {
+    if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.isOnPlatform) {       //added double jump
       this.startJump();
+      this.doubleJumpCool = .5;
+    }else if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.hasDoublejump && this.doubleJumpCool<=0){
+      this.startJump();
+      this.hasDoublejump = false;
     }
+  
+    this.doubleJump(deltaTime);
 
     if (this.isJumping) {
       this.updateJump(deltaTime);
@@ -105,8 +116,28 @@ class Player extends GameObject {
       console.log('You win!');
       location.reload();
     }
-
+    this.dashForward(deltaTime,input,physics);
     super.update(deltaTime);
+  }
+
+  dashForward(deltaTime,input,physics){
+    if(this.canDash && input.isKeyDown("Space")&& this.dashCool<=0){
+      physics.velocity.x = -this.dashSpeed*this.direction;   //dash actually goes to the right direction
+      this.dashCool = .5;
+    }else if(this.dashCool>0){
+      this.dashCool-=deltaTime;
+    }
+  }
+
+  doubleJump(deltaTime){
+    if (this.isOnPlatform){
+      this.hasDoublejump = true;
+      this.canDash = true;
+    }
+    if(this.doubleJumpCool>0){
+      this.doubleJumpCool-=deltaTime; //when we start jump it adds little timer so we can double jump in normal time not instantly
+    }
+    
   }
 
   handleGamepadInput(input){
@@ -146,12 +177,11 @@ class Player extends GameObject {
 
   startJump() {
     // Initiate a jump if the player is on a platform
-    if (this.isOnPlatform) { 
       this.isJumping = true;
       this.jumpTimer = this.jumpTime;
       this.getComponent(Physics).velocity.y = -this.jumpForce;
       this.isOnPlatform = false;
-    }
+  
   }
   
   updateJump(deltaTime) {
