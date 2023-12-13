@@ -8,6 +8,7 @@ import Enemy from './enemy.js';
 import Platform from './platform.js';
 import Collectible from './collectible.js';
 import ParticleSystem from '../engine/particleSystem.js';
+import Obstacle from './obstacle.js';
 
 // Defining a class Player that extends GameObject
 class Player extends GameObject {
@@ -34,8 +35,8 @@ class Player extends GameObject {
     this.doubleJumpCool = 0;
     this.canDash = true;
     this.dashSpeed = 500;
+    this.dashLasts = 0;
     this.dashCool = 0;
-    this.dashCool2 = 0;
   }
 
   // The update function runs every frame and contains game logic
@@ -47,10 +48,10 @@ class Player extends GameObject {
     
     // Handle player movement
     if (!this.isGamepadMovement && input.isKeyDown('ArrowRight')) {
-      physics.velocity.x = 100;
+      physics.velocity.x = 300;
       this.direction = -1;
     } else if (!this.isGamepadMovement && input.isKeyDown('ArrowLeft')) {
-      physics.velocity.x = -100;
+      physics.velocity.x = -300;
       this.direction = 1;
     } else if (!this.isGamepadMovement){
       physics.velocity.x = 0;
@@ -84,6 +85,13 @@ class Player extends GameObject {
     const enemies = this.game.gameObjects.filter((obj) => obj instanceof Enemy);
     for (const enemy of enemies) {
       if (physics.isColliding(enemy.getComponent(Physics))) {
+        this.collidedWithEnemy();
+      }
+    }
+
+    const obstacles = this.game.gameObjects.filter((obj) => obj instanceof Obstacle);
+    for (const obstacle of obstacles) {
+      if (physics.isColliding(obstacle.getComponent(Physics))) {
         this.collidedWithEnemy();
       }
     }
@@ -122,14 +130,14 @@ class Player extends GameObject {
   }
 
   dashForward(deltaTime,input,physics){ 
-    if(this.canDash && input.isKeyDown("Space")&& this.dashCool<=0 && this.dashCool2<=0){
-      this.dashCool = .5;
-    }else if(this.dashCool>0){
-      this.dashCool-=deltaTime;
+    if(this.canDash && input.isKeyDown("Space")&& this.dashLasts<=0 && this.dashCool<=0){ 
+      this.dashLasts = .5;     //starts dash
+    }else if(this.dashLasts>0){      
+      this.dashLasts-=deltaTime;       
       physics.velocity.x = -this.dashSpeed*this.direction;   //dash actually goes to the right direction
-      this.dashCool2=1;
-    }else if(this.dashCool2>0){
-      this.dashCool2-=deltaTime;
+      this.dashCool=1;
+    }else if(this.dashCool>0){      // doesn't let you dash again for a little while
+      this.dashCool-=deltaTime;
     }
   }
 
