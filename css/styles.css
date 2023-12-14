@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("../resources/images/background/Background2.jpg"); /* picture background */
+    background-image: url("../resources/images/background/Background2.jpg"); /* source: https://www.artstation.com/artwork/Zaoxd8 */
     background-size: contain;
     background-position: left;
 }
