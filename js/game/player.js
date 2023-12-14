@@ -77,7 +77,6 @@ class Player extends GameObject {
     for (const collectible of collectibles) {
       if (physics.isColliding(collectible.getComponent(Physics))) {
         this.collect(collectible);
-        this.game.removeGameObject(collectible);
       }
     }
   
@@ -117,13 +116,13 @@ class Player extends GameObject {
 
     // Check if player has no lives left
     if (this.lives <= 0) {
-      location.reload();
+      this.resetGame();
     }
 
     // Check if player has collected all collectibles
     if (this.score >= 3) {
       console.log('You win!');
-      location.reload();
+      this.resetGame();
     }
     this.dashForward(deltaTime,input,physics);
     super.update(deltaTime);
@@ -218,10 +217,15 @@ class Player extends GameObject {
 
   collect(collectible) {
     // Handle collectible pickup
-    this.score += collectible.value;
-    console.log(`Score: ${this.score}`);
-    this.emitCollectParticles(collectible);
-  }
+    if(!collectible.collected){
+      this.score += collectible.value;
+      console.log(`Score: ${this.score}`);
+      this.emitCollectParticles(collectible);
+      collectible.collected = true;
+    }
+
+    }
+   
 
   emitCollectParticles() {
     // Create a particle system at the player's position when a collectible is collected
@@ -239,6 +243,8 @@ class Player extends GameObject {
     this.isOnPlatform = false;
     this.isJumping = false;
     this.jumpTimer = 0;
+    this.game.reset();
+    this.score = 0;
   }
 
   resetGame() {
@@ -247,6 +253,7 @@ class Player extends GameObject {
     this.score = 0;
     this.resetPlayerState();
   }
+
 }
 
 export default Player;

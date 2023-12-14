@@ -36,7 +36,20 @@ class Collectible extends GameObject {
 
     // Set the 'value' property of this collectible. This could be used to score points when the collectible is collected.
     this.value = 1;
+
+    this.collected = false;
   }
+
+  reset(){
+    this.collected = false;
+  }
+
+  draw(ctx){
+    if(!this.collected){
+      super.draw(ctx);
+    }
+  }
+
 }
 
 // Export the Collectible class as the default export of this module

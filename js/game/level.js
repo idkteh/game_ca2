@@ -34,9 +34,11 @@ class Level extends Game {
 
     // Create platforms and add them to the game
     const platforms = [
-      new Platform(-100, 650, 200, 500, color, "Platform"),
-      new Platform(500, 650, 200, 500, color, "Platform"),
-      new Platform(750, 650, 200, 500, color, "Platform"),
+      new Platform(-100, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
+      new Platform(500, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
+      new Platform(750, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
+      new Platform(1362, 650, 400, 500, "rgb(48, 41, 22)", "Platform"),
+
      
     ];
     for (const platform of platforms) {
@@ -58,7 +60,7 @@ class Level extends Game {
  
    
     // Create collectibles and add them to the game
-    this.addGameObject(new Collectible(250, this.canvas.height - 100, 20, 20));
+    this.addGameObject(new Collectible(300, 800, 20, 20));
     this.addGameObject(new Collectible(450, this.canvas.height - 100, 20, 20));
     this.addGameObject(new Collectible(650, this.canvas.height - 100, 20, 20));
   }
