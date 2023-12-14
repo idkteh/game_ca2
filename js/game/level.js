@@ -11,9 +11,11 @@ import Obstacle from './obstacle.js';
 class Level extends Game {
   
   // Define the constructor for this class, which takes one argument for the canvas ID
-  constructor(canvasId) {
+  constructor(canvasId, color = "rgb(196, 177, 118)") {
     // Call the constructor of the superclass (Game) with the canvas ID
     super(canvasId);
+
+    this.color = color;
     
     // Create a player object and add it to the game
     const player = new Player(this.canvas.width / 2 - 25, this.canvas.height / 2 - 25);
@@ -32,9 +34,9 @@ class Level extends Game {
 
     // Create platforms and add them to the game
     const platforms = [
-      new Platform(-100, 650, 200, 500, "rgb(50, 150, 10)", "Platform"),
-      new Platform(500, 650, 200, 500, "rgb(50, 150, 10)", "Platform"),
-      new Platform(750, 650, 200, 500, "rgb(50, 150, 10)", "Platform"),
+      new Platform(-100, 650, 200, 500, color, "Platform"),
+      new Platform(500, 650, 200, 500, color, "Platform"),
+      new Platform(750, 650, 200, 500, color, "Platform"),
      
     ];
     for (const platform of platforms) {

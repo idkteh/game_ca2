@@ -18,6 +18,6 @@ Images.player.src = './resources/images/player/cat.png'; // Update the image pat
 // Set the source of the enemy image.
 Images.enemy.src = './resources/images/enemy/enemy.png'; // Update the image path
 
-Images.coin.src = './resources/images/coin/image.png';
+Images.coin.src = './resources/images/coin/food.png';
 // Export the Images and AudioFiles objects so they can be imported and used in other modules.
 export { Images, AudioFiles };

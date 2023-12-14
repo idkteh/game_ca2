@@ -111,7 +111,7 @@ class Player extends GameObject {
     }
   
     // Check if player has fallen off the bottom of the screen
-    if (this.y > this.game.canvas.height) {
+    if (this.y > 800) {
       this.resetPlayerState();
     }
 
