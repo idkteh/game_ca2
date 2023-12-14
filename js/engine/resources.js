@@ -2,6 +2,7 @@
 const Images = {
   player: new Image(), // The Image instance for the player.
   enemy: new Image(), // The Image instance for the enemy.
+  coin: new Image()
 };
 
 // Create an AudioFiles object to hold the file paths of the audio resources.
@@ -12,10 +13,11 @@ const AudioFiles = {
 };
 
 // Set the source of the player image.
-Images.player.src = './resources/images/player/player.png'; // Update the image path
+Images.player.src = './resources/images/player/cat.png'; // Update the image path
 
 // Set the source of the enemy image.
 Images.enemy.src = './resources/images/enemy/enemy.png'; // Update the image path
 
+Images.coin.src = './resources/images/coin/image.png';
 // Export the Images and AudioFiles objects so they can be imported and used in other modules.
 export { Images, AudioFiles };
