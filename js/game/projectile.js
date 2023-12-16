@@ -11,7 +11,7 @@ class Projectile extends GameObject{
         this.timer = 0;
         this.addComponent(new Physics({x:0,y:-4},{x:0,y:0},{x:0,y:0}));
         this.addComponent(new Renderer("red",20,20,Images.projectile));
-        console.log(`${this.x}, ${this.y}`);
+        
     }
 
     update(deltaTime){
