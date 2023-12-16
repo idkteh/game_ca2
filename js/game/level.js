@@ -1,11 +1,12 @@
 // Import necessary classes and resources
 import Game from '../engine/game.js';
 import Player from './player.js';
-import Enemy from './enemy.js';
 import PlayerUI from './playerUI.js';
 import Platform from './platform.js';
 import Collectible from './collectible.js';
 import Obstacle from './obstacle.js';
+import Enemy_shoot_up from './enemy_shoot_up.js';
+import Enemy_shoot_side from './enemy_shoot_side.js';
 
 // Define a class Level that extends the Game class from the engine
 class Level extends Game {
@@ -34,6 +35,7 @@ class Level extends Game {
 
     // Create platforms and add them to the game
     const platforms = [
+
       new Platform(-100.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
       new Platform(500.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
       new Platform(750.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
@@ -42,16 +44,14 @@ class Level extends Game {
       new Platform(2153, 333, 500.0, 50.0, "rgb(48, 41, 22)", "Platform"),
       new Platform(1389, 113, 500.0, 50.0, "rgb(48, 41, 22)", "Platform"),
       
-      
-
-     
     ];
     for (const platform of platforms) {
       this.addGameObject(platform);
     }
 
     // Create enemies and add them to the game
-  this.addGameObject(new Enemy(150, 800));
+  this.addGameObject(new Enemy_shoot_up(150, 800,0,2.5,2));
+  this.addGameObject(new Enemy_shoot_side(0, 500,5,0.5,1,0));
   //   this.addGameObject(new Enemy(platformWidth + gap + 50, this.canvas.height - 90));
   //   this.addGameObject(new Enemy(2 * (platformWidth + gap) + 50, this.canvas.height - 90));
   

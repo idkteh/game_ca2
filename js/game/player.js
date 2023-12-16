@@ -3,13 +3,14 @@ import GameObject from '../engine/gameobject.js';
 import Renderer from '../engine/renderer.js';
 import Physics from '../engine/physics.js';
 import Input from '../engine/input.js';
-import { Images } from '../engine/resources.js';
+import { Images, AudioFiles } from '../engine/resources.js';
 import Enemy from './enemy.js';
-import Platform from './platform.js';
 import Collectible from './collectible.js';
 import ParticleSystem from '../engine/particleSystem.js';
 import Obstacle from './obstacle.js';
 import Projectile from './projectile.js';
+import Sound from '../engine/sound.js';
+
 
 // Defining a class Player that extends GameObject
 class Player extends GameObject {
@@ -20,6 +21,8 @@ class Player extends GameObject {
     this.addComponent(this.renderer);
     this.addComponent(new Physics({ x: 0, y: 0 }, { x: 0, y: 0 })); // Add physics
     this.addComponent(new Input()); // Add input for handling user input
+    this.addComponent(new Sound());
+    this.getComponent(Sound).add();
     // Initialize all the player specific properties
     this.direction = 1;
     this.lives = 3;
@@ -212,9 +215,7 @@ class Player extends GameObject {
       this.emitCollectParticles(collectible);
       collectible.collected = true;
     }
-
     }
-   
 
   emitCollectParticles() {
     // Create a particle system at the player's position when a collectible is collected

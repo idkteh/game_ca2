@@ -20,23 +20,26 @@ import Obstacle from './obstacle.js';
 class Enemy extends GameObject {
 
   // Define the constructor for this class, which takes two arguments for the x and y coordinates
-  constructor(x, y) {
+  constructor(x, y,movementDistance,movementLimit,speed) {
     // Call the constructor of the superclass (GameObject) with the x and y coordinates
     super(x, y);
     
-    this.shootTime = 0;
+    
     // Add a Renderer component to this enemy, responsible for rendering it in the game.
     // The renderer uses the color 'green', dimensions 50x50, and an enemy image from the Images object
     this.addComponent(new Renderer('green', 20, 20, Images.enemy));
+
     
     // Add a Physics component to this enemy, responsible for managing its physical interactions
     // Sets the initial velocity and acceleration
-    this.addComponent(new Physics({ x: 10, y: 0 }, { x: 0, y: 0 }));
+    this.addComponent(new Physics({ x: speed, y: 0 }, { x: 0, y: 0 }));
     
     // Initialize variables related to enemy's movement
-    this.movementDistance = 0;
-    this.movementLimit = 2.5;
+    this.movementDistance = movementDistance;
+    this.movementLimit = movementLimit;
     this.movingRight = true;
+    this.speed = speed;
+   
   }
 
   // Define an update method that will run every frame of the game. It takes deltaTime as an argument
@@ -45,19 +48,12 @@ class Enemy extends GameObject {
     // Get the Physics component of this enemy
     const physics = this.getComponent(Physics);
 
-    this.shootTime += deltaTime;
-    
-    if (this.shootTime > 0.5){
-      this.game.addGameObject(new Projectile(this.x, this.y, this.direction));
-      this.shootTime = 0;
-      
-    }
-
+  
     // Check if the enemy is moving to the right
     if (this.movingRight) {
       // If it hasn't reached its movement limit, make it move right
       if (this.movementDistance < this.movementLimit) {
-        physics.velocity.x = 2;
+        physics.velocity.x = this.speed;
         this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
         this.getComponent(Renderer).gameObject.direction = 1;
       } else {
@@ -68,7 +64,7 @@ class Enemy extends GameObject {
     } else {
       // If it hasn't reached its movement limit, make it move left
       if (this.movementDistance < this.movementLimit) {
-        physics.velocity.x = -2;
+        physics.velocity.x = -this.speed;
         this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
         this.getComponent(Renderer).gameObject.direction = -1;
       } else {
@@ -97,6 +93,8 @@ class Enemy extends GameObject {
       }
     }
 
+    // check if enemy is colliding with obstacles = this is done to make it hard for players to collect all the collectibles
+    // and to make it possible for the enemy to move
     const obstacles = this.game.gameObjects.filter(obj => obj instanceof Obstacle);
     this.isOnObstacle = false;
     for (const obstacle of obstacles) {
