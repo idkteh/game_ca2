@@ -43,6 +43,10 @@ class GameObject {
       // Find the first component that is an instance of componentClass.
       return this.components.find((component) => component instanceof componentClass);
     }
+
+    reset(){
+      
+    }
   }
   
   // The GameObject class is exported as the default export of this module.

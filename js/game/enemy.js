@@ -13,6 +13,8 @@ import {Images} from '../engine/resources.js';
 // Import the Player and Platform classes from the current directory
 import Player from './player.js';
 import Platform from './platform.js';
+import Projectile from './projectile.js';
+import Obstacle from './obstacle.js';
 
 // Define a new class, Enemy, which extends (i.e., inherits from) GameObject
 class Enemy extends GameObject {
@@ -22,9 +24,10 @@ class Enemy extends GameObject {
     // Call the constructor of the superclass (GameObject) with the x and y coordinates
     super(x, y);
     
+    this.shootTime = 0;
     // Add a Renderer component to this enemy, responsible for rendering it in the game.
     // The renderer uses the color 'green', dimensions 50x50, and an enemy image from the Images object
-    this.addComponent(new Renderer('green', 50, 50, Images.enemy));
+    this.addComponent(new Renderer('green', 20, 20, Images.enemy));
     
     // Add a Physics component to this enemy, responsible for managing its physical interactions
     // Sets the initial velocity and acceleration
@@ -32,7 +35,7 @@ class Enemy extends GameObject {
     
     // Initialize variables related to enemy's movement
     this.movementDistance = 0;
-    this.movementLimit = 100;
+    this.movementLimit = 300;
     this.movingRight = true;
   }
 
@@ -41,6 +44,14 @@ class Enemy extends GameObject {
   update(deltaTime) {
     // Get the Physics component of this enemy
     const physics = this.getComponent(Physics);
+
+    this.shootTime += deltaTime;
+    
+    if (this.shootTime > 2){
+      this.game.addGameObject(new Projectile(this.x, this.y, this.direction));
+      this.shootTime = 0;
+      
+    }
 
     // Check if the enemy is moving to the right
     if (this.movingRight) {
@@ -85,6 +96,19 @@ class Enemy extends GameObject {
         this.isOnPlatform = true;
       }
     }
+
+    const obstacles = this.game.gameObjects.filter(obj => obj instanceof Obstacle);
+    this.isOnObstacle = false;
+    for (const obstacle of obstacles) {
+      if (physics.isColliding(obstacle.getComponent(Physics))) {
+        // If it is, stop its vertical movement and position it on top of the platform
+        physics.velocity.y = 0;
+        physics.acceleration.y = 0;
+        this.y = obstacle.y - this.getComponent(Renderer).height;
+        this.isOnObstacle = true;
+      }
+    }
+
 
     // Call the update method of the superclass (GameObject), passing along deltaTime
     super.update(deltaTime);

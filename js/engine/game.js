@@ -101,18 +101,11 @@ class Game {
 
   // This method resets the game to its initial state and then restarts it.
   reset() {
-    // Stop the game.
-    this.isRunning = false;
-
-    // Reset all game objects that have a reset method.
     for (const gameObject of this.gameObjects) {
       if (gameObject.reset) {
         gameObject.reset();
       }
     }
-
-    // Restart the game.
-    this.start();
   }
 }
 

@@ -9,13 +9,14 @@ import Platform from './platform.js';
 import Collectible from './collectible.js';
 import ParticleSystem from '../engine/particleSystem.js';
 import Obstacle from './obstacle.js';
+import Projectile from './projectile.js';
 
 // Defining a class Player that extends GameObject
 class Player extends GameObject {
   // Constructor initializes the game object and add necessary components
   constructor(x, y) {
     super(x, y); // Call parent's constructor
-    this.renderer = new Renderer('blue', 50, 50, Images.player); // Add renderer
+    this.renderer = new Renderer('blue', 60, 60, Images.player); // Add renderer
     this.addComponent(this.renderer);
     this.addComponent(new Physics({ x: 0, y: 0 }, { x: 0, y: 0 })); // Add physics
     this.addComponent(new Input()); // Add input for handling user input
@@ -81,7 +82,7 @@ class Player extends GameObject {
     }
   
     // Handle collisions with enemies
-    const enemies = this.game.gameObjects.filter((obj) => obj instanceof Enemy);
+    const enemies = this.game.gameObjects.filter((obj) => obj instanceof Enemy || obj instanceof Projectile);
     for (const enemy of enemies) {
       if (physics.isColliding(enemy.getComponent(Physics))) {
         this.collidedWithEnemy();

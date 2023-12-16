@@ -34,10 +34,15 @@ class Level extends Game {
 
     // Create platforms and add them to the game
     const platforms = [
-      new Platform(-100, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
-      new Platform(500, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
-      new Platform(750, 650, 200, 500, "rgb(48, 41, 22)", "Platform"),
-      new Platform(1362, 650, 400, 500, "rgb(48, 41, 22)", "Platform"),
+      new Platform(-100.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(500.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(750.0, 650.0, 200.0, 500.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(1362.0, 650.0, 400.0, 500.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(1836, 539, 200.0, 50.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(2153, 333, 500.0, 50.0, "rgb(48, 41, 22)", "Platform"),
+      new Platform(1389, 113, 500.0, 50.0, "rgb(48, 41, 22)", "Platform"),
+      
+      
 
      
     ];
@@ -46,7 +51,7 @@ class Level extends Game {
     }
 
     // Create enemies and add them to the game
-  //   this.addGameObject(new Enemy(50, this.canvas.height - 90));
+  this.addGameObject(new Enemy(150, 800));
   //   this.addGameObject(new Enemy(platformWidth + gap + 50, this.canvas.height - 90));
   //   this.addGameObject(new Enemy(2 * (platformWidth + gap) + 50, this.canvas.height - 90));
   
@@ -60,9 +65,9 @@ class Level extends Game {
  
    
     // Create collectibles and add them to the game
-    this.addGameObject(new Collectible(300, 800, 20, 20));
-    this.addGameObject(new Collectible(450, this.canvas.height - 100, 20, 20));
-    this.addGameObject(new Collectible(650, this.canvas.height - 100, 20, 20));
+    this.addGameObject(new Collectible(300, 800, 25, 25));
+    this.addGameObject(new Collectible(0, 500, 25, 25));
+    this.addGameObject(new Collectible(600, 500, 25, 25));
   }
   
 }
