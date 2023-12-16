@@ -31,11 +31,11 @@ class Enemy extends GameObject {
     
     // Add a Physics component to this enemy, responsible for managing its physical interactions
     // Sets the initial velocity and acceleration
-    this.addComponent(new Physics({ x: 50, y: 0 }, { x: 0, y: 0 }));
+    this.addComponent(new Physics({ x: 10, y: 0 }, { x: 0, y: 0 }));
     
     // Initialize variables related to enemy's movement
     this.movementDistance = 0;
-    this.movementLimit = 300;
+    this.movementLimit = 2.5;
     this.movingRight = true;
   }
 
@@ -47,7 +47,7 @@ class Enemy extends GameObject {
 
     this.shootTime += deltaTime;
     
-    if (this.shootTime > 2){
+    if (this.shootTime > 0.5){
       this.game.addGameObject(new Projectile(this.x, this.y, this.direction));
       this.shootTime = 0;
       
@@ -57,7 +57,7 @@ class Enemy extends GameObject {
     if (this.movingRight) {
       // If it hasn't reached its movement limit, make it move right
       if (this.movementDistance < this.movementLimit) {
-        physics.velocity.x = 50;
+        physics.velocity.x = 2;
         this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
         this.getComponent(Renderer).gameObject.direction = 1;
       } else {
@@ -68,7 +68,7 @@ class Enemy extends GameObject {
     } else {
       // If it hasn't reached its movement limit, make it move left
       if (this.movementDistance < this.movementLimit) {
-        physics.velocity.x = -50;
+        physics.velocity.x = -2;
         this.movementDistance += Math.abs(physics.velocity.x) * deltaTime;
         this.getComponent(Renderer).gameObject.direction = -1;
       } else {

@@ -26,7 +26,7 @@ class Player extends GameObject {
     this.score = 0;
     this.isOnPlatform = false;
     this.isJumping = false;
-    this.jumpForce = 450;
+    this.jumpForce = 5;
     this.jumpTime = 0.3;
     this.jumpTimer = 0;
     this.isInvulnerable = false;
@@ -35,7 +35,7 @@ class Player extends GameObject {
     this.hasDoublejump = true;
     this.doubleJumpCool = 0;
     this.canDash = true;
-    this.dashSpeed = 500;
+    this.dashSpeed = 5;
     this.dashLasts = 0;
     this.dashCool = 0;
   }
@@ -49,17 +49,17 @@ class Player extends GameObject {
     
     // Handle player movement
     if (!this.isGamepadMovement && input.isKeyDown('ArrowRight')) {
-      physics.velocity.x = 300;
+      physics.velocity.x = 4;
       this.direction = -1;
     } else if (!this.isGamepadMovement && input.isKeyDown('ArrowLeft')) {
-      physics.velocity.x = -300;
+      physics.velocity.x = -4;
       this.direction = 1;
     } else if (!this.isGamepadMovement){
       physics.velocity.x = 0;
     }
 
     // Handle player jumping
-    if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.isOnPlatform) {       //added double jump
+    if (!this.isGamepadJump && input.isKeyDown('ArrowUp')&& physics.isGrounded) {       //added double jump
       this.startJump();
       this.doubleJumpCool = .5;
     }else if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.hasDoublejump && this.doubleJumpCool<=0){
@@ -96,19 +96,7 @@ class Player extends GameObject {
       }
     }
   
-    // Handle collisions with platforms
-    this.isOnPlatform = false;  // Reset this before checking collisions with platforms
-    const platforms = this.game.gameObjects.filter((obj) => obj instanceof Platform);
-    for (const platform of platforms) {
-      if (physics.isColliding(platform.getComponent(Physics))) {
-        if (!this.isJumping) {
-          physics.velocity.y = 0;
-          physics.acceleration.y = 0;
-          this.y = platform.y - this.renderer.height;
-          this.isOnPlatform = true;
-        }
-      }
-    }
+   
   
     // Check if player has fallen off the bottom of the screen
     if (this.y > 800) {
@@ -142,7 +130,7 @@ class Player extends GameObject {
   }
 
   doubleJump(deltaTime){
-    if (this.isOnPlatform){
+    if (this.getComponent(Physics).isGrounded){
       this.hasDoublejump = true;
       this.canDash = true;
     }
