@@ -16,41 +16,29 @@ class Physics extends Component {
   // The update method handles how the component's state changes over time.
   update(deltaTime) {
    // Update velocity based on acceleration and gravity.
-   this.velocity.x += this.acceleration.x* deltaTime;
-   this.velocity.y += (this.acceleration.y + this.gravity.y)* deltaTime;
 
-   const platforms = this.gameObject.game.gameObjects.filter((obj) => obj instanceof Platform);
+
+   // Code taken from https://github.com/Ruby101-was-taken/FinalGameEngine
+   this.velocity.x += this.acceleration.x* deltaTime; 
+   this.velocity.y += (this.acceleration.y + this.gravity.y)* deltaTime;
+ 
+   const platforms = this.gameObject.game.gameObjects.filter((obj) => obj instanceof Platform);     // makes list of every platform
    
    this.isGrounded = false;
    for(let i=0; i<Math.abs(this.velocity.y); i++){
-     this.gameObject.y+=Math.sign(this.velocity.y);
+     this.gameObject.y+=Math.sign(this.velocity.y);                     // moves the object 1 unit in the direction y velocity
      for(const obj of platforms){
-       if(obj.getComponent(Physics).isColliding(this)){
-         
-         if(this.gravity.y>=0){
-           if(this.velocity.y<0){
-             this.gameObject.y+=1;
-             this.velocity.y=0; 
-             this.velocity.y=+1; 
-           } 
-           else if(this.velocity.y>=0){
-             this.gameObject.y-=1;
-             this.isGrounded = true;
-             this.velocity.y=0;
-           }
-         }
-         else if(this.gravity.y<0){
-           if(this.velocity.y>0){
-             this.gameObject.y-=1;
-             this.velocity.y=0; 
-             this.velocity.y=-1; 
-           } 
-           else if(this.velocity.y<=0){
-             this.gameObject.y+=1;
-             this.isGrounded = true;
-             this.velocity.y=0;
-           }
-         }
+       if(obj.getComponent(Physics).isColliding(this)){              // check collision
+         if(this.velocity.y<0){
+          this.gameObject.y+=1;
+          this.velocity.y=0; 
+          this.velocity.y=+1; 
+        } 
+        else if(this.velocity.y>=0){                          // if we moving up or down and hit platform, we go the other way
+          this.gameObject.y-=1;
+          this.isGrounded = true;                            // check if on platform
+          this.velocity.y=0;
+        }
        }
      }
    }
@@ -60,14 +48,12 @@ class Physics extends Component {
      for(const obj of platforms){
           if(obj.getComponent(Physics).isColliding(this)){
           
-           this.gameObject.x-=Math.sign(this.velocity.x);
+           this.gameObject.x-=Math.sign(this.velocity.x);                       // if we move in x direction and hit platform, move back
            this.velocity.x = 0;
           }
        }
     
-   }
-  
-   this.acceleration.x = 0;
+      }
  }
    
 
