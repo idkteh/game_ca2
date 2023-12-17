@@ -10,6 +10,7 @@ import ParticleSystem from '../engine/particleSystem.js';
 import Obstacle from './obstacle.js';
 import Projectile from './projectile.js';
 import Sound from '../engine/sound.js';
+import UI from '../engine/ui.js';
 
 
 // Defining a class Player that extends GameObject
@@ -23,6 +24,7 @@ class Player extends GameObject {
     this.addComponent(new Input()); // Add input for handling user input
     this.addComponent(new Sound());
     this.getComponent(Sound).add(AudioFiles.jump);
+    this.getComponent(Sound).add(AudioFiles.dash);
     // Initialize all the player specific properties
     this.direction = 1;
     this.lives = 3;
@@ -41,10 +43,18 @@ class Player extends GameObject {
     this.dashSpeed = 5;
     this.dashLasts = 0;
     this.dashCool = 0;
+
+    this.firstFrame = true;
   }
 
   // The update function runs every frame and contains game logic
   update(deltaTime) {
+
+    if (this.firstFrame){                        // we read the collectibles variable to be able to se the limit for score
+      const collectibles = this.game.gameObjects.filter((obj) => obj instanceof Collectible);
+      this.totalCollectibles = collectibles.lenght;               
+      this.firsFrame = false;
+    }
     const physics = this.getComponent(Physics); // Get physics component
     const input = this.getComponent(Input); // Get input component
 
@@ -117,13 +127,13 @@ class Player extends GameObject {
     }
 
     // Check if player has collected all collectibles
-    if (this.score >= 3) {
-      console.log('You win!');
+    if (this.score >= this.totalCollectibles) {
       this.resetGame();
     }
 
     // calling dash methodS
     this.dashForward(deltaTime,input,physics);
+    
 
     super.update(deltaTime);
   }
@@ -131,10 +141,11 @@ class Player extends GameObject {
   // Dash method
   dashForward(deltaTime,input,physics){ 
     if(this.canDash && input.isKeyDown("Space")&& this.dashLasts<=0 && this.dashCool<=0){ 
-      this.dashLasts = .5;     //starts dash
+      this.dashLasts = .5;                            // starts dash
+      this.getComponent(Sound).play(1);               // plays sound
     }else if(this.dashLasts>0){      
       this.dashLasts-=deltaTime;       
-      physics.velocity.x = -this.dashSpeed*this.direction;   //dash actually goes to the right direction
+      physics.velocity.x = -this.dashSpeed*this.direction;  //dash actually goes to the right direction
       this.dashCool=1;
     }else if(this.dashCool>0){      // doesn't let you dash again for a little while
       this.dashCool-=deltaTime;
@@ -253,14 +264,14 @@ class Player extends GameObject {
     this.isJumping = false;
     this.jumpTimer = 0;
     this.game.reset();
-    this.score = 0;
-  } // rub
+    this.score = 0;                               
+  } 
 
   resetGame() {
     // Reset the game state, which includes the player's state
     this.lives = 3;
     this.score = 0;
-    this.resetPlayerState();
+    this.resetPlayerState();              // instead of refreshing page it resets values
   }
 
 }

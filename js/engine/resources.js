@@ -8,8 +8,10 @@ const Images = {
 
 // Create an AudioFiles object to hold the file paths of the audio resources.
 const AudioFiles = {
-  jump: new Audio('./resources/audio/jump.ogg'), // The file path of the jump sound.
+  jump: new Audio('./resources/audio/jump.ogg'), 
   ambience: new Audio('./resources/audio/ambience.mp3'),
+  dash: new Audio('./resources/audio/dash.mp3'),
+
   //collect: './resources/audio/collect.mp3', // The file path of the collect sound.
   // Add more audio file paths as needed
 };

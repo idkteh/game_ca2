@@ -20,6 +20,7 @@ class PlayerUI extends GameObject {
     // Update the text of the UI component to reflect the player's current lives and score.
     this.uiComponent.setText(`Lives: ${player.lives} Score: ${player.score}`);
   }
+
 }
 
 export default PlayerUI; // Export the PlayerUI class for use in other modules.

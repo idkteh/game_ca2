@@ -8,6 +8,8 @@ import Obstacle from './obstacle.js';
 import Enemy_shoot_up from './enemy_shoot_up.js';
 import Enemy_shoot_side from './enemy_shoot_side.js';
 import MusicMan7 from './music_man7.js';
+
+
 // Define a class Level that extends the Game class from the engine
 class Level extends Game {
   
@@ -68,11 +70,6 @@ class Level extends Game {
     // this.addGameObject(new Obstacle(platformWidth + gap, this.canvas.height - 70, 50, 30, "red"));
     // this.addGameObject(new Obstacle(platformWidth + gap, this.canvas.height - 70, 50, 30, "red"));
     // this.addGameObject(new Obstacle(platformWidth + gap, this.canvas.height - 70, 50, 30, "red"));
-
-
-    
- 
-   
     // Create collectibles and add them to the game
     this.addGameObject(new Collectible(300, 750, 25, 25));
     this.addGameObject(new Collectible(0, 500, 25, 25));
