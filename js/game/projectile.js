@@ -20,7 +20,7 @@ class Projectile extends GameObject{
 
         this.timer+=deltaTime;
 
-        if (this.timer > 5){
+        if (this.timer > 1){
             this.game.removeGameObject(this);        //after timer is reached it removes itself
         }
 

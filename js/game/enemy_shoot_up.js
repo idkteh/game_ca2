@@ -9,12 +9,13 @@ class Enemy_shoot_up extends Enemy{
         this.shootTime = 0;
 
     }
-
+     
+    //explain
     update(deltaTime){
         this.shootTime += deltaTime;
     
         if (this.shootTime > 0.5){
-          this.game.addGameObject(new Projectile(this.x, this.y, 0,1));
+          this.game.addGameObject(new Projectile(this.x, this.y, 0,1));    
           this.shootTime = 0;
         }
 

@@ -12,6 +12,8 @@ class Enemy_shoot_side extends Enemy{
 
     }
 
+
+    // explain 
     update(deltaTime){
         this.shootTime += deltaTime;
     

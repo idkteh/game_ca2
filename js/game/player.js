@@ -22,14 +22,14 @@ class Player extends GameObject {
     this.addComponent(new Physics({ x: 0, y: 0 }, { x: 0, y: 0 })); // Add physics
     this.addComponent(new Input()); // Add input for handling user input
     this.addComponent(new Sound());
-    this.getComponent(Sound).add();
+    this.getComponent(Sound).add(AudioFiles.jump);
     // Initialize all the player specific properties
     this.direction = 1;
     this.lives = 3;
     this.score = 0;
     this.isOnPlatform = false;
     this.isJumping = false;
-    this.jumpForce = 5;
+    this.jumpForce = 4;
     this.jumpTime = 0.3;
     this.jumpTimer = 0;
     this.isInvulnerable = false;
@@ -62,11 +62,13 @@ class Player extends GameObject {
     }
 
     // Handle player jumping
-    if (!this.isGamepadJump && input.isKeyDown('ArrowUp')&& physics.isGrounded) {       //added double jump
+    if (!this.isGamepadJump && input.isKeyDown('ArrowUp')&& physics.isGrounded) {       //handles jump
       this.startJump();
+      this.getComponent(Sound).play(0);
       this.doubleJumpCool = .5;
-    }else if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.hasDoublejump && this.doubleJumpCool<=0){
+    }else if (!this.isGamepadJump && input.isKeyDown('ArrowUp') && this.hasDoublejump && this.doubleJumpCool<=0){ //handles double jump
       this.startJump();
+      this.getComponent(Sound).play(0);
       this.hasDoublejump = false;
     }
   
@@ -92,17 +94,20 @@ class Player extends GameObject {
       }
     }
 
+
+    // Handle collision with Obstacle
     const obstacles = this.game.gameObjects.filter((obj) => obj instanceof Obstacle);
     for (const obstacle of obstacles) {
       if (physics.isColliding(obstacle.getComponent(Physics))) {
-        this.collidedWithEnemy();
+        this.collidedWithObstacle();
+        this.resetPlayerState();     // any contact wiht obstacle automatically resets the game (good luck)
       }
     }
   
    
   
     // Check if player has fallen off the bottom of the screen
-    if (this.y > 800) {
+    if (this.y > 1000) {
       this.resetPlayerState();
     }
 
@@ -116,10 +121,14 @@ class Player extends GameObject {
       console.log('You win!');
       this.resetGame();
     }
+
+    // calling dash methodS
     this.dashForward(deltaTime,input,physics);
+
     super.update(deltaTime);
   }
 
+  // Dash method
   dashForward(deltaTime,input,physics){ 
     if(this.canDash && input.isKeyDown("Space")&& this.dashLasts<=0 && this.dashCool<=0){ 
       this.dashLasts = .5;     //starts dash
@@ -132,6 +141,7 @@ class Player extends GameObject {
     }
   }
 
+  // Double jump method
   doubleJump(deltaTime){
     if (this.getComponent(Physics).isGrounded){
       this.hasDoublejump = true;
@@ -207,11 +217,20 @@ class Player extends GameObject {
     }
   }
 
+  // Checking collison with obstacles
+  collidedWithObstacle(){
+    if (!this.isInvulnerable) {
+      this.lives--;
+      this.isInvulnerable = true;
+      // Make player vulnerable again after 2 seconds
+      setTimeout(() => {this.isInvulnerable = false;}, 2000);
+    }
+  }
+
   collect(collectible) {
     // Handle collectible pickup
     if(!collectible.collected){
       this.score += collectible.value;
-      console.log(`Score: ${this.score}`);
       this.emitCollectParticles(collectible);
       collectible.collected = true;
     }
@@ -235,7 +254,7 @@ class Player extends GameObject {
     this.jumpTimer = 0;
     this.game.reset();
     this.score = 0;
-  }
+  } // rub
 
   resetGame() {
     // Reset the game state, which includes the player's state
