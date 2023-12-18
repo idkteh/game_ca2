@@ -10,7 +10,7 @@ import ParticleSystem from '../engine/particleSystem.js';
 import Obstacle from './obstacle.js';
 import Projectile from './projectile.js';
 import Sound from '../engine/sound.js';
-import UI from '../engine/ui.js';
+
 
 
 // Defining a class Player that extends GameObject
