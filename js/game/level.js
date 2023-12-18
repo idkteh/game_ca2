@@ -39,8 +39,8 @@ class Level extends Game {
     this.addGameObject(new Obstacle(2153, 380, 30, 207, "rgb(252,228,132)"));
     this.addGameObject(new Obstacle(2036, 539, 146, 50, "rgb(252,228,132)"));
     this.addGameObject(new Obstacle(3934, -513, 356, 642, "rgb(252,228,132)"));
-    this.addGameObject(new Obstacle(1056, 113, 333, 52, "rgb(252,228,132)"));
-    this.addGameObject(new Obstacle(1056, -69, 48, 217, "rgb(252,228,132)"));
+    this.addGameObject(new Obstacle(1072, 113, 317, 52, "rgb(252,228,132)"));
+    this.addGameObject(new Obstacle(1072, -68, 48, 217, "rgb(252,228,132)"));
     
 
     // Create platforms and add them to the game
@@ -103,7 +103,12 @@ class Level extends Game {
 
     // Enemies
     this.addGameObject(new Enemy_shoot_up(150, 800,0,2.5,2));
+    this.addGameObject(new Enemy_shoot_up(950, 800,0,2.5,2));
+    this.addGameObject(new Enemy_shoot_up(3300, -40,0,1.7,2));
+    this.addGameObject(new Enemy_shoot_up(714, -170,0,1,2));
     this.addGameObject(new Enemy_shoot_side(-1063, 528,5,0.5,1,0));
+    this.addGameObject(new Enemy_shoot_side(-260, -311,5,0.5,1,0));
+    
 
 
       

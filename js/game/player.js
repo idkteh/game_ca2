@@ -27,7 +27,7 @@ class Player extends GameObject {
     this.getComponent(Sound).add(AudioFiles.dash);
     // Initialize all the player specific properties
     this.direction = 1;
-    this.lives = 5;
+    this.lives = 9;
     this.score = 0;
     this.isOnPlatform = false;
     this.isJumping = false;
