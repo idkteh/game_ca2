@@ -17,7 +17,7 @@ class Enemy_shoot_side extends Enemy{
     update(deltaTime){
         this.shootTime += deltaTime;
     
-        if (this.shootTime > 0.5){
+        if (this.shootTime > 1){
           this.game.addGameObject(new Projectile(this.x, this.y, this.shootDirection,0));   // same x axis
           this.shootTime = 0;
         }

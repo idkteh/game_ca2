@@ -27,7 +27,7 @@ class Player extends GameObject {
     this.getComponent(Sound).add(AudioFiles.dash);
     // Initialize all the player specific properties
     this.direction = 1;
-    this.lives = 3;
+    this.lives = 5;
     this.score = 0;
     this.isOnPlatform = false;
     this.isJumping = false;
@@ -50,11 +50,11 @@ class Player extends GameObject {
   // The update function runs every frame and contains game logic
   update(deltaTime) {
 
-    if (this.firstFrame){                        // we read the collectibles variable to be able to se the limit for score
-      const collectibles = this.game.gameObjects.filter((obj) => obj instanceof Collectible);
-      this.totalCollectibles = collectibles.lenght;               
-      this.firsFrame = false;
-    }
+    // if (this.firstFrame){                        // we read the collectibles variable to be able to se the limit for score
+    //   const collectibles = this.game.gameObjects.filter((obj) => obj instanceof Collectible);
+    //   this.totalCollectibles = collectibles.lenght;               
+    //   this.firsFrame = false;
+    // }                                      // i tried, i failed, i'll hardcode it instead
     const physics = this.getComponent(Physics); // Get physics component
     const input = this.getComponent(Input); // Get input component
 
@@ -127,7 +127,7 @@ class Player extends GameObject {
     }
 
     // Check if player has collected all collectibles
-    if (this.score >= this.totalCollectibles) {
+    if (this.score >= 23) {                        // used to be this.totalCollectibles, no idea why it doesn't work anymore
       this.resetGame();
     }
 
